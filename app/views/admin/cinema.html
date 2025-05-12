@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Room</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app.css">
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app-dark.css">
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/assets/styles/seats.css">
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/assets/styles/table.css">
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app-dark.css">
+    <script src="https://cdn.jsdelivr.net/npm/just-validate@latest/dist/just-validate.production.min.js"></script>
+    <style>
+        #table1 td,
+        #table1 th {
+            white-space: nowrap;
+            /* Không cho xuống dòng */
+            text-overflow: ellipsis;
+            /* Hiển thị "..." nếu tràn */
+            overflow: hidden;
+            /* Ẩn phần tràn */
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+
+
+
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor//assets/compiled/css/table-datatable-jquery.css">
+
+</head>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/static/js/initTheme.js"></script>
+
+<body>
+
+    <div id="app">
+        <div id="sidebar"></div>
+        <script type="module" src="http://localhost/CO3049_assignment/public/components/admin/sidebar.js"></script>
+        <!--  -->
+        <div id="main">
+            <div id="header"></div>
+            <script type="module" src="http://localhost/CO3049_assignment/public/components/admin/header.js"></script>
+            <!--  -->
+            <section class="row">
+                <div class="page-content">
+                    <!--  -->
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="card shadow">
+                                <div class="list-group " id="chosePage">
+                                    <a href="http://localhost/CO3049_assignment/public/admin/cinema?view=cinemaPage" class="list-group-item list-group-item-action">Thông tin rạp</a>
+                                    <a href="http://localhost/CO3049_assignment/public/admin/cinema?view=seatPage" class="list-group-item list-group-item-action">Sơ đồ phòng</a>
+                                    <a href="http://localhost/CO3049_assignment/public/admin/cinema?view=showtimePage" class="list-group-item list-group-item-action">Lịch chiếu</a>
+                                    <a href="http://localhost/CO3049_assignment/public/admin/cinema?view=productPage" class="list-group-item list-group-item-action">Sản phẩm kinh doanh</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <select id="cinemaSelect" class="form-select" aria-label="Chọn rạp">
+                                    </select>
+                                    <!-- Dropdown phòng chiếu -->
+                                    <select id="roomSelect" class="form-select mt-3" aria-label="Chọn phòng" disabled>
+                                    </select>
+                                    <select id="dateSelect" class="form-select mt-3" aria-label="Chọn ngày" disabled>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="row" id="cinemaPage">
+                        <div class="col">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <h5>Thông tin rạp</h5>
+                                        <div id="cinemaInfo" class="mt-3">
+                                            <!--  -->
+                                            <form id="cinemaInfoForm">
+                                                <input name="id" hidden>
+                                                <div class="row mt-3">
+                                                    <div class="form-group mb-3 text-start">
+                                                        <label for="name " class="form-label">Tên rạp</label>
+                                                        <input type="text" class="form-control" name="name">
+                                                    </div>
+                                                    <div class="form-group mb-3 text-start">
+                                                        <label for="location" class="form-label">Địa chỉ</label>
+                                                        <input type="text" class="form-control" name="location">
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-6 form-group mb-3">
+                                                        <label for="open_time" class="form-label">Giờ mở cửa</label>
+                                                        <input type="time" class="form-control" name="open_time">
+                                                    </div>
+                                                    <div class="col-6 form-group mb-3">
+                                                        <label for="close_time" class="form-label">Giờ đóng cửa</label>
+                                                        <input type="time" class="form-control" name="close_time">
+                                                    </div>
+                                                </div>
+                                                <div class="text-center">
+                                                    <div class="alert" id="message" style="display: none;"></div>
+                                                    <button class="btn btn-primary" type="submit">Lưu</button>
+                                                </div>
+                                            </form>
+                                            <!--  -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="row" id="seatPage">
+                        <div class="col-12">
+                            <div class="text-end m-3">
+                                <button class="btn btn-success" onclick="getSeatCSV()">Xuất csv</button>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card shadow">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <div id="seatDisplay">
+                                            <div class="navbar">
+                                                <div class="seat standard"></div> <span class="ms-2">Standard</span>
+                                                <div class="seat vip"></div> <span class="ms-2">VIP</span>
+                                                <div class="seat couple"></div> <span class="ms-2">Couple</span>
+                                                <div class="seat maintenance"></div> <span class="ms-2">Maintenance</span>
+                                            </div>
+                                            <div class="screen">Màn hình</div>
+                                            <div id="seat" class="row p-1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="row" id="showtimePage">
+                        <div class="col">
+                            <div id="showtimeForm">
+                                <div class="text-end m-3">
+                                    <button class="btn btn-success" onclick="getShowtimeCSV()">Xuất csv</button>
+                                    <button class="btn btn-primary col-2" onclick="inputShowtime()">
+                                        <i class="bi bi-plus-square"></i> Thêm mới
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card shadow">
+                                    <div class="card-body p-0">
+                                        <div id="showtimeGrid" class="ag-theme-alpine" data-ag-theme-mode="dark" style="height: 600px; width: 100%;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="row" id="productPage">
+                        <div class="col">
+                            <div class="text-end m-3">
+                                <!-- Button kích hoạt -->
+                                <button class="btn btn-primary col-2" data-bs-toggle="modal" data-bs-target="#productModal">
+                                    <i class="bi bi-plus-square"></i> Thêm mới
+                                </button>
+
+                            </div>
+                            <div>
+                                <div class="card shadow">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table" id="table1">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Tên sản phẩm</th>
+                                                        <th>Giá</th>
+                                                        <th>Loại</th>
+                                                        <th>Trạng thái</th>
+                                                        <th>Số lượng</th>
+                                                        <th>Có giới hạn?</th>
+                                                        <th>Hành động</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <form id="productForm">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="productModalLabel">Thêm sản phẩm mới</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="name" class="form-label">Tên sản phẩm</label>
+                                    <input type="text" class="form-control" name="name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="price" class="form-label">Giá</label>
+                                    <input type="number" class="form-control" name="price" step="0.01" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="type" class="form-label">Loại</label>
+                                    <select class="form-select" name="type">
+                                        <option value="popcorn">Bắp</option>
+                                        <option value="drink">Nước</option>
+                                        <option value="food">Thức ăn</option>
+                                        <option value="combo">Combo</option>
+                                        <option value="other">Khác</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="status" class="form-label">Trạng thái</label>
+                                    <select class="form-select" name="status">
+                                        <option value="available">Hiện</option>
+                                        <option value="unavailable">Ẩn</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="quality" class="form-label">Số lượng</label>
+                                    <input type="number" class="form-control" name="quality" min="0">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label d-block">Quản lý tồn kho?</label>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="has_stock" value="1" checked>
+                                        <label class="form-check-label">Có</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="has_stock" value="0">
+                                        <label class="form-check-label">Không</label>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="id"> <!-- Hoặc lấy từ JS -->
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="alert" id="productMessage" style="display: none;"></div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="seatModal" tabindex="-1" aria-labelledby="seatModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="seatModalLabel">Thêm ghế</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="seatInsertForm">
+                            <div class="mb-3">
+                                <label for="seatType" class="form-label">Loại ghế</label>
+                                <select class="form-select" name="type" required>
+                                    <option value="standard" selected>Standard</option>
+                                    <option value="vip">VIP</option>
+                                    <option value="couple">Couple</option>
+                                    <option value="none">Khoảng trống</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="seatCode" class="form-label">Mã ghế</label>
+                                <input type="text" class="form-control" name="code">
+                            </div>
+                            <div class="mb-3">
+                                <label for="seatCode" class="form-label">Giá</label>
+                                <input type="number" class="form-control" name="price">
+                            </div>
+                            <input type="number" class="form-control" name="col">
+                            <input type="number" class="form-control" name="row">
+                            <input type="number" class="form-control" name="room_id">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="button" onclick="insertSeat()" class="btn btn-primary">Lưu thay đổi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--  -->
+        <div class="modal fade" id="showtimeModal" tabindex="-1" aria-labelledby="showtimeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="showtimeModalLabel">Chọn Phim và Thời gian</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="movieSelect" class="form-label">Chọn Phim</label>
+                            <select class="form-select" id="movieSelect" aria-label="Chọn Phim">
+                                <option selected>Chọn phim</option>
+                            </select>
+                        </div>
+
+                        <!-- Select chọn giờ -->
+                        <div class="mb-3">
+                            <label for="hourSelect" class="form-label">Chọn giờ</label>
+                            <select id="hourSelect" class="form-select">
+                                <option value="" disabled selected>Chọn giờ</option>
+                            </select>
+                        </div>
+
+                        <!-- Select chọn phút -->
+                        <div class="mb-3">
+                            <label for="minuteSelect" class="form-label">Chọn phút</label>
+                            <select id="minuteSelect" class="form-select">
+                                <option value="" disabled selected>Chọn phút</option>
+                            </select>
+                        </div>
+                        <div class="text-danger" id="message">Lưu ý: Thời gian bắt đầu phải nằm trong khoảng thời gian mở cửa của rạp</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="button" class="btn btn-primary" onclick="insertShowtime()">Lưu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+
+    <div id="toggleDark"></div>
+    <script type="module" src="http://localhost/CO3049_assignment/public/components/toggleDark.js"></script>
+
+</body>
+
+<script src="http://localhost/CO3049_assignment/public/assets/pages/admin/cinema.js" defer></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/compiled/js/app.js" defer></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/static/js/components/dark.js" defer></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/extensions/jquery/jquery.min.js"></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/extensions/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/static/js/pages/datatables.js"></script>
+
+</html>

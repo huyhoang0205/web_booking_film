@@ -1,0 +1,39 @@
+
+
+
+.classification {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.classification-P {
+    background-color: #28a745; /* xanh lá - phù hợp mọi lứa tuổi */
+}
+
+.classification-K {
+    background-color: #17a2b8; /* xanh dương nhẹ - trẻ em */
+}
+
+.classification-T13 {
+    background-color: #ffc107; /* vàng - từ 13 tuổi */
+}
+
+.classification-T16 {
+    background-color: #fd7e14; /* cam - từ 16 tuổi */
+}
+
+.classification-T18 {
+    background-color: #dc3545; /* đỏ - từ 18 tuổi */
+}
+
+.classification-C {
+    background-color: #6c757d; /* xám - chưa xác định */
+}
+
+
+

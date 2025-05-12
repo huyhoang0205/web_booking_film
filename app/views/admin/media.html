@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Media</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app.css">
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app-dark.css">
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/assets/styles/table.css">
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app-dark.css">
+</head>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/static/js/initTheme.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/just-validate@latest/dist/just-validate.production.min.js"></script>
+
+<body>
+
+    <div id="app">
+        <div id="sidebar"></div>
+        <script type="module" src="http://localhost/CO3049_assignment/public/components/admin/sidebar.js"></script>
+
+
+        <div id="main" class="">
+            <div id="header"></div>
+            <script type="module" src="http://localhost/CO3049_assignment/public/components/admin/header.js"></script>
+
+
+            <div class="page-content">
+                <div class="mb-3 d-flex gap-2 ">
+                    <a id="btn-update" href="http://localhost/CO3049_assignment/public/admin/media?view=updatePage" class="btn btn-outline-success fw-bold">Chỉnh sửa</a>
+                    <a id="btn-insert" href="http://localhost/CO3049_assignment/public/admin/media?view=insertPage" class="btn btn-outline-primary fw-bold">Thêm mới</a>
+                </div>
+
+
+                <section class="row" id="insertPage">
+                    <div class="page-heading">
+                        <h3>Thêm mới</h3>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Thêm mới</h4>
+                            </div>
+                            <div class="card-body">
+                                <form id="mediaForm" enctype="multipart/form-data">
+                                    <!-- File -->
+                                    <div class="mb-3">
+                                        <label for="file" class="form-label">
+                                            Chọn ảnh <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="file" class="form-control" id="file" accept="image/*">
+                                    </div>
+                                    <!-- Type -->
+                                    <div class="mb-3">
+                                        <label for="type" class="form-label">
+                                            Loại tệp
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-select" id="type" name="type">
+                                            <option value="movie">Movie</option>
+                                            <option value="poster">Poster</option>
+                                            <option value="deal">Deal</option>
+                                        </select>
+                                    </div>
+                                    <!-- Title -->
+                                    <div class="mb-3">
+                                        <label for="title" class="form-label">
+                                            Tiêu đề
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" name="title">
+                                    </div>
+                                    <!-- Mô tả -->
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">
+                                            Mô tả
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" class="form-control" name="description">
+                                    </div>
+                                    <!-- Status -->
+                                    <div class="mb-3">
+                                        <label for="status" class="form-label">
+                                            Trạng thái
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <select class="form-select" name="status">
+                                            <option value="Showing">Showing</option>
+                                            <option value="Hidden">Hidden</option>
+                                        </select>
+                                    </div>
+                                    <!-- Ngày bắt đầu -->
+                                    <div class="mb-3">
+                                        <label for="start_date" class="form-label">
+                                            Ngày bắt đầu
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="date" class="form-control" name="start_date">
+                                    </div>
+
+                                    <!-- Ngày kết thúc -->
+                                    <div class="mb-3">
+                                        <label for="end_date" class="form-label">
+                                            Ngày kết thúc
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="date" class="form-control" name="end_date">
+                                    </div>
+
+                                    <div id="infoMovie" class="d-none">
+                                        <div class="mb-3">
+                                            <label for="duration" class="form-label">Thời lượng (phút)
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="number" class="form-control" name="duration">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="genre" class="form-label">Thể loại
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="text" class="form-control" name="genre">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="trailer" class="form-label">URL Trailer</label>
+                                            <input type="url" class="form-control" name="trailer">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="language" class="form-label">Ngôn ngữ</label>
+                                            <input type="text" class="form-control" name="language">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="country" class="form-label">Quốc gia sản xuất</label>
+                                            <input type="text" class="form-control" name="country">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="classification" class="form-label">
+                                                Phân loại phim
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <select class="form-select" name="classification">
+                                                <option value="P">P</option>
+                                                <option value="K">K</option>
+                                                <option value="T13">T13</option>
+                                                <option value="T16">T16</option>
+                                                <option value="T18">T18</option>
+                                                <option value="C">C</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div id="message" class="text-center mb-3"></div>
+
+                                    <button type="submit" class="btn btn-success">Lưu</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!--  -->
+                <section class="row" id="updatePage">
+                    <div class="page-heading">
+                        <h3>Chỉnh sửa</h3>
+                    </div>
+                    <div class="col-12">
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="typeGet" value="movie" id="movie" checked>
+                                        <label class="form-check-label" for="movie">Movie</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="typeGet" value="poster" id="poster">
+                                        <label class="form-check-label" for="poster">Poster</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="typeGet" value="deal" id="deal">
+                                        <label class="form-check-label" for="deal">Deal</label>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="text-end m-3">
+                            <button class="btn btn-success" onclick="getMediaCSV()">Xuất csv</button>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card shadow">
+                            <div class="card-body p-0">
+                                <div id="mediaTable" class="ag-theme-alpine" data-ag-theme-mode="dark" style="height: 600px; width: 100%;">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </section>
+            </div>
+
+        </div>
+
+
+
+
+
+        <div id="mediaModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mediaModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="mediaModalLabel">Media Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Nội dung chi tiết media sẽ được thêm vào đây -->
+                        <div id="mediaDetails"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="updateModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mediaModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="mediaModalLabel">Media Details</h5>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Thêm các trường input cho các thuộc tính -->
+                        <div class="mb-3">
+                            <div id="img" class="text-center"></div>
+                        </div>
+                        <form id="updateForm">
+                            <div class="mb-3">
+                                <label for="id" class="form-label">
+                                    ID
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control" name="id" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="type" class="form-label">Type</label>
+                                <input type="text" class="form-control" name="type" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Title</label>
+                                <input type="text" class="form-control" name="title">
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <input type="text" class="form-control" name="description">
+                            </div>
+                            <div class="mb-3">
+                                <label for="status" class="form-label">Status</label>
+                                <input type="text" class="form-control" name="status">
+                            </div>
+                            <div class="mb-3">
+                                <label for="start_date" class="form-label">Start Date</label>
+                                <input type="date" class="form-control" name="start_date">
+                            </div>
+                            <div class="mb-3">
+                                <label for="end_date" class="form-label">End Date</label>
+                                <input type="date" class="form-control" name="end_date">
+                            </div>
+                            <div class="mb-3">
+                                <label for="duration" class="form-label">Duration</label>
+                                <input type="number" class="form-control" name="duration">
+                            </div>
+                            <div class="mb-3">
+                                <label for="genre" class="form-label">Genre</label>
+                                <input type="text" class="form-control" name="genre">
+                            </div>
+                            <div class="mb-3">
+                                <label for="trailer" class="form-label">Trailer</label>
+                                <input type="text" class="form-control" name="trailer">
+                            </div>
+                            <div class="mb-3">
+                                <label for="language" class="form-label">Language</label>
+                                <input type="text" class="form-control" name="language">
+                            </div>
+                            <div class="mb-3">
+                                <label for="country" class="form-label">Country</label>
+                                <input type="text" class="form-control" name="country">
+                            </div>
+                            <div class="mb-3">
+                                <label for="classification" class="form-label">Classification</label>
+                                <input type="text" class="form-control" name="classification">
+                            </div>
+                        </form>
+                        <div id="updateMessage" class="text-center mb-3"></div>
+                        <button onclick="updateMedia()" class="btn btn-success">Lưu</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Hủy</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div id="toggleDark"></div>
+        <script type="module" src="http://localhost/CO3049_assignment/public/components/toggleDark.js"></script>
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.js"></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/compiled/js/app.js" defer></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/static/js/components/dark.js" defer></script>
+<script src="http://localhost/CO3049_assignment/public/assets/pages/admin/media.js" defer></script>
+
+
+</html>

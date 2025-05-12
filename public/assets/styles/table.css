@@ -1,0 +1,8 @@
+
+.ag-theme-alpine[data-ag-theme-mode="dark"] {
+    --ag-background-color: #090f1a;
+    --ag-border-color: #a3acbd;
+    --ag-row-hover-color: #141d2b;
+    --ag-odd-row-background-color: #0a192f;
+    --ag-even-row-background-color: #06080c;
+}

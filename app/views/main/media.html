@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tin Tức Phim Mới, Trailer, Hình Ảnh Hot | CinemaHCMUT
+    </title>
+    <meta name="description" content="Cập nhật trailer phim hot, hậu trường, hình ảnh mới nhất và tin tức điện ảnh hấp dẫn mỗi ngày tại CinemaHCMUT.
+    ">
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/assets/styles/global.css">
+
+
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app.css">
+
+
+    <style>
+        .movie-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+    
+        .movie-duration i,
+        .movie-release i,
+        .movie-genre i {
+            margin-right: 8px;
+            color: #f39c12;
+            /* Màu vàng cho icon */
+            font-size: 1.2rem;
+            transition: transform 0.3s ease, color 0.3s ease;
+            /* Thêm hiệu ứng chuyển động */
+        }
+    
+        .movie-duration i:hover,
+        .movie-release i:hover,
+        .movie-genre i:hover {
+            transform: scale(1.3);
+            /* Phóng to icon khi hover */
+            color: #e74c3c;
+            /* Thay đổi màu khi hover */
+        }
+    
+        .movie-duration strong,
+        .movie-release strong,
+        .movie-genre strong {
+            font-weight: 600;
+        }
+    
+        /* Định dạng chung cho các nút */
+        #dateSelect button {
+            width: 70px;
+            height: 60px;
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            /* Viền bo tròn */
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            /* Không có viền ban đầu */
+        }
+    
+        /* Màu nền cho các nút không được chọn */
+        #dateSelect button:not(.active) {
+            background-color: #f0f0f0;
+            /* Màu nền nhạt */
+            color: #333;
+            /* Màu chữ tối */
+        }
+    
+        /* Màu nền cho nút được chọn */
+        #dateSelect button.active {
+            background-color: #007bff;
+            /* Màu nền khi chọn */
+            color: white;
+            /* Màu chữ sáng */
+            border: 2px solid #0056b3;
+            /* Viền màu xanh đậm khi chọn */
+        }
+    
+        /* Hiệu ứng hover */
+        #dateSelect button:hover {
+            background-color: #0056b3;
+            /* Màu nền khi hover */
+            color: white;
+            /* Màu chữ khi hover */
+            cursor: pointer;
+            /* Con trỏ chuột chuyển sang tay */
+        }
+    
+        /* Định dạng chữ cho ngày trong nút */
+        #dateSelect button .text-center {
+            font-size: 0.9rem;
+            margin: 0;
+            line-height: 1.2rem;
+        }
+    
+        /* Định dạng cho ngày trong nút */
+        #dateSelect button .text-center:first-child {
+            font-size: 1rem;
+            /* Font size cho ngày trong tuần */
+            font-weight: bold;
+        }
+    
+        /* Định dạng cho ngày/tháng */
+        #dateSelect button .text-center:last-child {
+            font-size: 1rem;
+            /* Font size cho ngày/tháng */
+        }
+    
+        /* Khi ngày hiện tại được chọn, thêm hiệu ứng đặc biệt */
+        #dateSelect button.active {
+            transform: scale(1.1);
+            /* Phóng to nút một chút khi được chọn */
+        }
+    </style>
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app-dark.css">
+</head>
+
+<body>
+
+    <div id="app" class="h-100">
+        <div id="header"></div>
+        <script type="module" src="http://localhost/CO3049_assignment/public/components/header.js"></script>
+        <main class="page-content container-lg h-100">
+            <section class="row">
+                <div class="col-3  mb-3">
+                    <div id="image"> ảnh</div>
+                </div>
+                <div class="col-9 mb-3">
+                    <div id="content">nội dung</div>
+                </div>
+            </section>
+            <section id="showtimePage" class="mb-3">
+                <h3 class="text-danger text-center mb-5"><i class="bi bi-calendar-week-fill me-2"></i>lịch chiếu</h3>
+
+                <div class="card shadow">
+                    <div class="card-header">
+                        <div class="navbar navbar-light ">
+                            <h4>Danh sách rạp</h3>
+                                <!-- Menu chọn -->
+                                <select id="cinemaSelect" class="form-select" style="width: 250px;" aria-label="Chọn rạp"></select>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <div class="col text-center m-3">
+                        <!-- Chọn ngày -->
+                        <div class="d-flex justify-content-center mb-4">
+                            <div class="gap-3 d-flex flex-wrap " id="dateSelect">
+                                <!-- Các nút ngày sẽ được tạo động ở đây -->
+                            </div>
+                        </div>
+                        <div class="d-flex flex-wrap gap-3 justify-content-center" id="showtime-detail">
+                            Chưa có lịch chiếu cho ngày này. Hãy quay lại sau. Xin cám ơn.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="trailerPage" class="mb-5">
+                <div class="col">
+                    <h3 class="text-danger text-center mb-2"><i class="bi bi-play-circle-fill me-2"></i>Trailer</h3>
+                    <div id="trailer"></div>
+                </div>
+            </section>
+
+
+
+            <!-- Footer -->
+            <div id="footer"></div>
+            <script type="module" src="http://localhost/CO3049_assignment/public/components/footer.js"></script>
+
+        </main>
+
+
+    </div>
+
+
+
+    <div id="toggleDark"></div>
+    <script type="module" src="http://localhost/CO3049_assignment/public/components/toggleDark.js"></script>
+
+</body>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/compiled/js/app.js" defer></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/static/js/components/dark.js"></script>
+<script src="http://localhost/CO3049_assignment/public/assets/pages/main/media.js" defer></script>
+
+</html>

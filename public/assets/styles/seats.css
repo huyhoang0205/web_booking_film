@@ -1,0 +1,47 @@
+
+#seatDisplay .seat {
+    min-width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    margin: 0px 5px 0px 5px;
+    padding: 0px;
+}
+#seatDisplay .doubleSeat {
+    min-width: 90px;
+    height: 40px;
+    border-radius: 5px;
+    margin: 0px 5px 0px 5px;
+
+}
+#seatDisplay .rowSeat {
+    padding: 5px;
+    margin: 0px;
+}
+#seatDisplay .add {
+    background-color: #d3e62d; /* Blue for standard */
+}
+
+#seatDisplay .standard {
+    background-color: #007bff; /* Blue for standard */
+}
+#seatDisplay .vip {
+    background-color: #28a745; /* Green for VIP */
+}
+#seatDisplay .couple {
+    background-color: #dc3545; /* Red for couple */
+}
+#seatDisplay .maintenance {
+    background-color: #6c757d; /* Grey for maintenance */
+}
+#seatDisplay .none {
+    background-color: transparent;
+
+}
+
+#seatDisplay .peding {
+    background-color: #736775; /* Yellow for selected */
+}
+
+#seatDisplay .completed {
+    background-color: #000000; /* Yellow for selected */
+}

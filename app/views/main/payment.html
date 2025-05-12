@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Toán Vé Xem Phim - An Toàn & Bảo Mật | CinemaHCMUT
+    </title>
+    <meta name="description" content="Chọn phương thức thanh toán tiện lợi như thẻ ATM, ví điện tử hoặc QR Code. Bảo mật thông tin tối đa khi thanh toán trên CinemaHCMUT.
+    ">
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/assets/styles/global.css">
+
+
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app.css">
+    <style>
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            gap: 10px;
+        }
+    
+        .step-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    
+        .step {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #6c757d;
+            position: relative;
+            z-index: 1;
+        }
+    
+        .step-label {
+            font-size: 0.85rem;
+            margin-top: 6px;
+            text-align: center;
+            color: #6c757d;
+            min-width: 90px;
+        }
+    
+        .step.active {
+            background-color: #0d6efd;
+            color: white;
+        }
+    
+        .step.completed {
+            background-color: #198754;
+            color: white;
+        }
+    
+        .step-connector {
+            width: 100px;
+            height: 2px;
+            background-color: #e9ecef;
+            margin-top: 17px;
+            z-index: 0;
+        }
+    
+        .step-connector.active {
+            background-color: #0d6efd;
+        }
+    </style>
+
+    <link rel="stylesheet" href="http://localhost/CO3049_assignment/public/mazor/assets/compiled/css/app-dark.css">
+</head>
+
+
+<body>
+
+    <div id="app" class="h-100">
+        <div id="header"></div>
+        <script type="module" src="http://localhost/CO3049_assignment/public/components/header.js"></script>
+        <main class="page-content container-lg h-100">
+            <section class="col">
+                <div class="step-indicator mb-4">
+                    <div class="step-container">
+                        <div class="step active">1</div>
+                        <div class="step-label">Chọn ghế</div>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step-container">
+                        <div class="step active">2</div>
+                        <div class="step-label">Chọn bắp nước</div>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step-container">
+                        <div class="step active">3</div>
+                        <div class="step-label">Nhập thông tin</div>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step-container">
+                        <div class="step active">4</div>
+                        <div class="step-label">Thanh toán</div>
+                    </div>
+                </div>
+
+            </section>
+            <div class="row">
+                <div class="col-12 col-md-6 d-flex justify-content-center align-items-center">
+                    <div id="qrCode" class="" style="min-height: 300px;">
+                        <!-- QR code sẽ được chèn vào đây bằng JS -->
+                    </div>
+                </div>
+                <div class="col-12 col-md-6" id="shadown">
+                    <div id="info" class="p-3">
+                        <div id="mesage" class="text-center mt-4"></div>
+
+                        <!-- Ngân hàng -->
+                        <div class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-bank me-2 text-primary fs-5"></i>
+                            <div>
+                                <strong>Ngân hàng:</strong>
+                                <div id="bankName" class="text-muted small"></div>
+                            </div>
+                            <div id="logo" class="ms-auto"></div>
+                        </div>
+
+                        <!-- Chủ tài khoản -->
+                        <div class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-person-circle me-2 text-success fs-5"></i>
+                            <div>
+                                <strong>Chủ tài khoản:</strong>
+                                <div id="accountName" class="text-muted small"></div>
+                            </div>
+                        </div>
+
+                        <!-- Số tài khoản -->
+                        <div class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-credit-card-2-front me-2 text-warning fs-5"></i>
+                            <div>
+                                <strong>Số tài khoản:</strong>
+                                <div id="accountNumber" class="text-muted small"></div>
+                            </div>
+                        </div>
+
+                        <!-- Số tiền -->
+                        <div class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-cash-stack me-2 text-danger fs-5"></i>
+                            <div>
+                                <strong>Số tiền:</strong>
+                                <div id="amount" class="text-muted small"></div>
+                            </div>
+                        </div>
+
+                        <!-- Nội dung chuyển khoản -->
+                        <div class="mb-3 d-flex align-items-center">
+                            <i class="bi bi-pencil-square me-2 text-info fs-5"></i>
+                            <div>
+                                <strong>Nội dung:</strong>
+                                <div id="description" class="text-muted small"></div>
+                            </div>
+                        </div>
+
+                        <!-- Lưu ý -->
+                        <div class="alert alert-warning d-flex align-items-center">
+                            <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                            <div><strong>Nhập chính xác số tiền và nội dung khi chuyển khoản.</strong></div>
+                        </div>
+                        <div class="text-center mb-3">
+                            <button class="btn btn-danger" id="cancelBtn">Huỷ đơn hàng</button>
+                        </div>
+                    </div>
+
+                    <!-- Nút huỷ đơn hàng -->
+                </div>
+            </div>
+
+
+            <!-- Footer -->
+            <div id="footer"></div>
+            <script type="module" src="http://localhost/CO3049_assignment/public/components/footer.js"></script>
+
+        </main>
+
+
+    </div>
+
+
+
+    <div id="toggleDark"></div>
+    <script type="module" src="http://localhost/CO3049_assignment/public/components/toggleDark.js"></script>
+
+</body>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/compiled/js/app.js" defer></script>
+<script src="http://localhost/CO3049_assignment/public/mazor/assets/static/js/components/dark.js"></script>
+<script src="http://localhost/CO3049_assignment/public/assets/pages/main/payment.js" defer></script>
+
+</html>
